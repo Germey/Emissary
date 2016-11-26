@@ -8,7 +8,7 @@ This is very much a work in progress so use at your own risk.
 Installation is via [Composer](https://getcomposer.org/):
 
 ```bash
-$ composer require mikescott/emissary "1.*"
+$ composer require germey/emissary "1.*"
 ```
 
 # A working example with Illuminate/Database
@@ -51,7 +51,7 @@ $aliases = [
 
 $app = new App(new Container($config));
 
-$app->add(new \mikescott\Emissary\Middleware($providers, $aliases));
+$app->add(new \Germey\Emissary\Middleware($providers, $aliases));
 
 $app->get('/', function ($request, $response, $args) {
     # Illuminate/Database via facade
@@ -108,7 +108,7 @@ use Slim\Container;
 
 $app = new App(new Container());
 
-$app->add(new \mikescott\Emissary\Middleware([
+$app->add(new \Germey\Emissary\Middleware([
     'foo\Example\ServiceProvider'
 ]));
 
@@ -125,7 +125,7 @@ When you run the app, "Hello, world!" should be output from the Example service.
 # License
 The MIT License (MIT)
 
-Copyright (c) 2016 Michael Scott (https://github.com/mikescott)
+Copyright (c) 2016 Michael Scott (https://github.com/Germey)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

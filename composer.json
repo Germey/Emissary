@@ -1,0 +1,32 @@
+{
+  "name": "germey/emissary",
+  "description": "Allows you to easily use Laravel Service Providers with Slim 3's DI container",
+  "keywords": [
+    "slim",
+    "laravel",
+    "service provider",
+    "dependency injection"
+  ],
+  "homepage": "https://github.com/Germey/Emissary",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Michael Scott",
+      "homepage": "https://github.com/mikescott/"
+    },
+    {
+      "name": "Germey",
+      "homepage": "http://cuiqingcai.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "slim/slim": ">=3.0",
+    "illuminate/support": ">=5.1"
+  },
+  "autoload": {
+    "psr-0": {
+      "Germey\\Emissary": "src"
+    }
+  }
+}

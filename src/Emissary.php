@@ -1,70 +1,92 @@
 <?php
-namespace mikescott\Emissary;
+namespace Germey\Emissary;
 
 use Illuminate\Container\Container;
 use Slim\App;
 
-class Emissary extends Container {
-    protected $app;
-    protected $container;
-    protected $providers = [];
-    
-    public function __construct(App $app)
-    {
-        $this->app = $app;
-        $this->container = $app->getContainer();
-        $this->bootProviders();
-    }
+class Emissary extends Container
+{
+	/**
+	 * @var App
+	 */
+	protected $app;
 
-    public function getApp()
-    {
-        return $this->app;
-    }
+	/**
+	 * @var \Interop\Container\ContainerInterface
+	 */
+	protected $container;
 
-    /**
-     * Boots all of the service providers
-     */
-    public function bootProviders()
-    {
-        foreach($this->providers as $provider) {
-            $provider->boot();
-        }
-    }
+	/**
+	 * @var array
+	 */
+	protected $providers = [];
 
-    /**
-     * Adds service providers from an array, like those in Laravel's config/app.php
-     * @param array $providers
-     */
-    public function addProviders(array $providers)
-    {
-        foreach($providers as $provider) {
-            $p = new $provider($this);
-            $p->register();
-            $this->providers[] = $p;
-        }
-    }
-    
-    public function addAliases(array $aliases)
-    {
-        foreach($aliases as $alias => $original) {
-            class_alias($original, $alias);
-        }
-    }
+	/**
+	 * Emissary constructor.
+	 *
+	 * @param App $app
+	 */
+	public function __construct(App $app)
+	{
+		$this->app = $app;
+		$this->container = $app->getContainer();
+		$this->bootProviders();
+	}
 
-    /**
-     * Binds all of the service providers to both the Illuminate container and Slim's container
-     * @param array|string $abstract
-     * @param null $concrete
-     * @param bool $shared
-     */
-    public function bind($abstract, $concrete = null, $shared = false)
-    {
-        parent::bind($abstract, $concrete, $shared);
+	/**
+	 * @return App
+	 */
+	public function getApp()
+	{
+		return $this->app;
+	}
 
-        $emissary = $this;
+	/**
+	 * Boots all of the service providers
+	 */
+	public function bootProviders()
+	{
+		foreach ($this->providers as $provider) {
+			$provider->boot();
+		}
+	}
 
-        $this->container[$abstract] = function($c) use($emissary, $abstract) {
-            return $emissary->make($abstract);
-        };
-    }
+	/**
+	 * Adds service providers from an array, like those in Laravel's config/app.php
+	 *
+	 * @param array $providers
+	 */
+	public function addProviders(array $providers)
+	{
+		foreach ($providers as $provider) {
+			$p = new $provider($this);
+			$p->register();
+			$this->providers[] = $p;
+		}
+	}
+
+	public function addAliases(array $aliases)
+	{
+		foreach ($aliases as $alias => $original) {
+			class_alias($original, $alias);
+		}
+	}
+
+	/**
+	 * Binds all of the service providers to both the Illuminate container and Slim's container
+	 *
+	 * @param array|string $abstract
+	 * @param null $concrete
+	 * @param bool $shared
+	 */
+	public function bind($abstract, $concrete = null, $shared = false)
+	{
+		parent::bind($abstract, $concrete, $shared);
+
+		$emissary = $this;
+
+		$this->container[$abstract] = function ($c) use ($emissary, $abstract) {
+			return $emissary->make($abstract);
+		};
+	}
 }
